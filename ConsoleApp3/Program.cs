@@ -58,13 +58,16 @@ namespace ConsoleApp3
         {
             if (hwnd != IntPtr.Zero)
             {
-                Thread.Sleep(500);
                 if (SetForegroundWindow(hwnd))
-                {
-                    SendKeys.SendWait(key);
+                {   
+                    SendKeys.Send(key);
+                    //SendMessage(hwnd, WM_KEYDOWN, new IntPtr(0x41), new IntPtr(0));
+                    //Thread.Sleep(50);
+                    //SendMessage(hwnd, WM_KEYUP, new IntPtr(0x41), new IntPtr(0));
+                    Debug.WriteLine("success");
                 }
                 //SendKeys.SendWait("{Enter}");
-                Debug.WriteLine("success");
+                
             }
             else
             {
@@ -74,10 +77,11 @@ namespace ConsoleApp3
         }
         static void Main(string[] args)
         {
-            Process p = Process.GetProcessById(0x4260);//get the process of the game
+            Process p = Process.GetProcessById(0x36DC);//get the process of the game
 
+            //SendText(p.MainWindowHandle, "ED");
             string input_command = null;
-            while (input_command!="0")
+            do
             {
                 Console.WriteLine("input chars to crack, 0 to exit...");
                 input_command = Console.ReadLine();
@@ -87,7 +91,7 @@ namespace ConsoleApp3
                     SendText(p.MainWindowHandle, key);
                     SendKeys.SendWait("{Enter}");
                 }
-            }
+            }while (input_command != "0");
             var x = Console.ReadLine();
             
         }
